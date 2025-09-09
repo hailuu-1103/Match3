@@ -60,11 +60,11 @@ public class GameManager : MonoBehaviour
         State = eStateGame.MAIN_MENU;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (m_boardController != null) m_boardController.Update();
-    }
+    // // Update is called once per frame
+    // void Update()
+    // {
+    //     if (m_boardController != null) m_boardController.Update(); // ??
+    // }
 
 
     internal void SetState(eStateGame state)
