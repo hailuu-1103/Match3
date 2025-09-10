@@ -1,3 +1,8 @@
+# Game Performance Improvement added
+- Cache instance of WaitForSeconds statically (BoardController class)
+- Use Object Pool when spawn/release item (Item class)
+- Remove coupling Update() method (GameManager class)
+
 # Project Structure Analysis
 
 ## Advantages
