@@ -362,7 +362,7 @@ public class Board
                 foreach (var cell in matches)
                 {
                     BonusItem item = cell.Item as BonusItem;
-                    if (item == null || item.ItemType == BonusItem.eBonusType.HORIZONTAL)
+                    if (item == null || item.eItemType == BonusItem.eBonusType.HORIZONTAL)
                     {
                         result.Add(cell);
                     }
@@ -372,7 +372,7 @@ public class Board
                 foreach (var cell in matches)
                 {
                     BonusItem item = cell.Item as BonusItem;
-                    if (item == null || item.ItemType == BonusItem.eBonusType.VERTICAL)
+                    if (item == null || item.eItemType == BonusItem.eBonusType.VERTICAL)
                     {
                         result.Add(cell);
                     }
@@ -382,7 +382,7 @@ public class Board
                 foreach (var cell in matches)
                 {
                     BonusItem item = cell.Item as BonusItem;
-                    if (item == null || item.ItemType == BonusItem.eBonusType.ALL)
+                    if (item == null || item.eItemType == BonusItem.eBonusType.ALL)
                     {
                         result.Add(cell);
                     }

@@ -13,39 +13,20 @@ public class BonusItem : Item
         ALL
     }
 
-    public eBonusType ItemType;
+    public eBonusType eItemType;
 
     public void SetType(eBonusType type)
     {
-        ItemType = type;
+        this.eItemType = type;
     }
 
-    protected override string GetPrefabName()
-    {
-        string prefabname = string.Empty;
-        switch (ItemType)
-        {
-            case eBonusType.NONE:
-                break;
-            case eBonusType.HORIZONTAL:
-                prefabname = Constants.PREFAB_BONUS_HORIZONTAL;
-                break;
-            case eBonusType.VERTICAL:
-                prefabname = Constants.PREFAB_BONUS_VERTICAL;
-                break;
-            case eBonusType.ALL:
-                prefabname = Constants.PREFAB_BONUS_BOMB;
-                break;
-        }
-
-        return prefabname;
-    }
+    public override string Type => this.eItemType.ToString();
 
     internal override bool IsSameType(Item other)
     {
         BonusItem it = other as BonusItem;
 
-        return it != null && it.ItemType == this.ItemType;
+        return it != null && it.eItemType == this.eItemType;
     }
 
     internal override void ExplodeView()
@@ -57,7 +38,7 @@ public class BonusItem : Item
 
     private void ActivateBonus()
     {
-        switch (ItemType)
+        switch (this.eItemType)
         {
             case eBonusType.HORIZONTAL:
                 ExplodeHorizontalLine();

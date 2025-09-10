@@ -1,11 +1,14 @@
-﻿using System;
+﻿#nullable enable
+
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using Scripts.Board;
 using Object = UnityEngine.Object;
 
 [Serializable]
-public class Item
+public abstract class Item
 {
     private static readonly Dictionary<string, GameObject> s_prefabCache = new Dictionary<string, GameObject>(16);
 
@@ -32,17 +35,21 @@ public class Item
     }
     private static readonly Dictionary<string, Pool> s_pools = new Dictionary<string, Pool>(16);
 
-    public Cell Cell { get; private set; }
-    public Transform View { get; private set; }
+    public  Cell           Cell { get; private set; }
+    public  Transform      View { get; private set; }
     private SpriteRenderer _sprite;              
-    private string _prefabKey;                  
+    private string         _prefabKey;
+    private ItemSkin?      itemSkin;
 
+    public abstract string Type { get; }
+    
     public virtual void SetView()
     {
-        var prefabName = GetPrefabName();
+        this.itemSkin ??= Resources.Load<ItemSkin>(ItemSkin.ResourcePath);
+
+        var prefabName = this.itemSkin.GetPrefabName(this.Type);
         if (string.IsNullOrEmpty(prefabName)) return;
 
-        _prefabKey = prefabName;
 
         if (!s_prefabCache.TryGetValue(prefabName, out var prefab) || prefab == null)
         {
@@ -65,7 +72,6 @@ public class Item
         View.DOKill(true); 
     }
 
-    protected virtual string GetPrefabName() { return string.Empty; }
 
     public virtual void SetCell(Cell cell)
     {

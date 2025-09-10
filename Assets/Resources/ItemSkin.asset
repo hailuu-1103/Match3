@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b905f888a7544bf6b7d35012be839ff5, type: 3}
+  m_Name: ItemSkin
+  m_EditorClassIdentifier: 
+  normalKeys: 00000000010000000200000003000000040000000500000006000000
+  normalVals:
+  - prefabs/itemNormal01
+  - prefabs/itemNormal02
+  - prefabs/itemNormal03
+  - prefabs/itemNormal04
+  - prefabs/itemNormal05
+  - prefabs/itemNormal06
+  - prefabs/itemNormal07
+  bonusKeys: 010000000200000003000000
+  bonusVals:
+  - prefabs/itemBonusHorizontal
+  - prefabs/itemBonusVertical
+  - prefabs/itemBonusBomb
