@@ -232,15 +232,17 @@ public class BoardController : MonoBehaviour
         StartCoroutine(ShiftDownItemsCoroutine());
     }
 
+    private static readonly WaitForSeconds WFS_0_2 = new WaitForSeconds(0.2f);
+    private static readonly WaitForSeconds WFS_0_3 = new WaitForSeconds(0.3f);
     private IEnumerator ShiftDownItemsCoroutine()
     {
         m_board.ShiftDownItems();
 
-        yield return new WaitForSeconds(0.2f);
+        yield return WFS_0_2;
 
         m_board.FillGapsWithNewItems();
 
-        yield return new WaitForSeconds(0.2f);
+        yield return WFS_0_2;
 
         FindMatchesAndCollapse();
     }
@@ -262,7 +264,7 @@ public class BoardController : MonoBehaviour
     {
         m_board.Shuffle();
 
-        yield return new WaitForSeconds(0.3f);
+        yield return WFS_0_3;
 
         FindMatchesAndCollapse();
     }
