@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Board
 {
@@ -138,18 +139,85 @@ public class Board
 
     internal void FillGapsWithNewItems()
     {
-        for (int x = 0; x < boardSizeX; x++)
+        var itemCounts = new Dictionary<NormalItem.eNormalType, int>();
+        
+        foreach (NormalItem.eNormalType type in Enum.GetValues(typeof(NormalItem.eNormalType)))
         {
-            for (int y = 0; y < boardSizeY; y++)
+            itemCounts[type] = 0;
+        }
+        
+        for (var x = 0; x < this.boardSizeX; x++)
+        {
+            for (var y = 0; y < this.boardSizeY; y++)
             {
-                Cell cell = m_cells[x, y];
+                var cell = this.m_cells[x, y];
+                if (!cell.IsEmpty && cell.Item is NormalItem normalItem)
+                {
+                    itemCounts[normalItem.ItemType]++;
+                }
+            }
+        }
+        
+        for (var x = 0; x < this.boardSizeX; x++)
+        {
+            for (var y = 0; y < this.boardSizeY; y++)
+            {
+                var cell = this.m_cells[x, y];
                 if (!cell.IsEmpty) continue;
 
-                NormalItem item = new NormalItem();
+                var item = new NormalItem();
 
-                item.SetType(Utils.GetRandomNormalType());
+                var typesToAvoid = new List<NormalItem.eNormalType>();
+                
+                if (cell.NeighbourUp != null && cell.NeighbourUp.Item is NormalItem upItem)
+                {
+                    typesToAvoid.Add(upItem.ItemType);
+                }
+                
+                if (cell.NeighbourBottom != null && cell.NeighbourBottom.Item is NormalItem downItem)
+                {
+                    typesToAvoid.Add(downItem.ItemType);
+                }
+                
+                if (cell.NeighbourLeft != null && cell.NeighbourLeft.Item is NormalItem leftItem)
+                {
+                    typesToAvoid.Add(leftItem.ItemType);
+                }
+                
+                if (cell.NeighbourRight != null && cell.NeighbourRight.Item is NormalItem rightItem)
+                {
+                    typesToAvoid.Add(rightItem.ItemType);
+                }
+                
+                var availableTypes = Enum.GetValues(typeof(NormalItem.eNormalType))
+                                         .Cast<NormalItem.eNormalType>()
+                                         .Except(typesToAvoid)
+                                         .ToList();
+                
+                NormalItem.eNormalType selectedType;
+                
+                if (availableTypes.Count > 0)
+                {
+                    availableTypes = availableTypes.OrderBy(t => itemCounts[t]).ToList();
+                    
+                    var minCount = itemCounts[availableTypes[0]];
+                    var minCountTypes = availableTypes
+                                        .TakeWhile(t => itemCounts[t] == minCount)
+                                        .ToList();
+                    
+                    var randomIndex = Random.Range(0, minCountTypes.Count);
+                    selectedType = minCountTypes[randomIndex];
+                }
+                else
+                {
+                    selectedType = itemCounts.OrderBy(kvp => kvp.Value).First().Key;
+                }
+                
+                itemCounts[selectedType]++;
+                
+                item.SetType(selectedType);
                 item.SetView();
-                item.SetViewRoot(m_root);
+                item.SetViewRoot(this.m_root);
 
                 cell.Assign(item);
                 cell.ApplyItemPosition(true);
